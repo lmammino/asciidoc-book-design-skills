@@ -49,12 +49,18 @@ The skill has three modes, picked from your request:
 ### Requirements
 
 - An existing Asciidoctor PDF build (the skill uses your build commands; it does not replace them).
-- [`uv`](https://docs.astral.sh/uv/) for the bundled PDF audit script, which declares its PyMuPDF dependency inline. Alternatively: `python3 -m pip install pymupdf`.
+- [`uv`](https://docs.astral.sh/uv/) for the bundled scripts, which declare their dependencies inline. Alternatively: `python3 -m pip install pymupdf pyyaml`.
+- Bundler or RubyGems able to locate the installed `asciidoctor-pdf` gem, for the theme checker.
 - An agent that can view images, for visual inspection of rendered pages.
 
 ## Status
 
-Early version. The audit script has been smoke-tested against a real 421-page Asciidoctor PDF; the design guidance is still being refined against real books. Script findings are leads for review, not verdicts.
+Early version, test-driven against a real 421-page technical book with light and dark editions (Asciidoctor PDF 2.3.21). That run produced the bundled scripts and the verified list of silent theme failures in [`asciidoctor-pdf.md`](skills/asciidoc-book-design/references/asciidoctor-pdf.md). Script findings are leads for review, not verdicts.
+
+### Bundled scripts
+
+- `pdf_audit.py`: page geometry, non-embedded fonts, prose measure, content-type page candidates, and page or spread rendering.
+- `theme_check.py`: theme keys the installed converter never reads, plus value traps such as an unparsed page size or prepress-only margins.
 
 ## Credits
 

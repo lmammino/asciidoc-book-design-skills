@@ -21,6 +21,9 @@ Read the book's intended audience, reading mode, subject matter, and chapter str
 - Evaluate long lines and callout anchors separately. Never silently change code to make it fit.
 - Tables need clear headers, sufficient row spacing, and readable multi-page continuation.
 - Admonitions should be recognizable without relying solely on color. Diagrams should remain legible at actual print size.
+- Screenshots: estimate the rendered size of their smallest meaningful text (source pixel height × display width ÷ source width). If it is far below caption size, crop to the relevant region, enlarge, or annotate instead of shrinking a full window. Dark editions need dark-mode captures or a deliberate frame.
+- Inline code competes with prose when it is both bold and filled; one emphasis signal is usually enough, and long inline literals wrap poorly in justified text and table cells.
+- Running furniture can be quieter than body text, but keep it readable: in dark editions low-contrast grey footers fall off quickly.
 - Syntax highlighting needs adequate contrast in both light and dark editions; test representative tokens and subdued comments.
 
 ## Design exploration

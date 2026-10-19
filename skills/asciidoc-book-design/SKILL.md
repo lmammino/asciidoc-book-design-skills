@@ -28,14 +28,24 @@ Choose `audit` (default), `explore`, or `refine` from user intent. If unclear, a
 - Record page dimensions, binding/print targets, light/dark variants, intended reading medium, and constraints.
 - Check project git status; do not overwrite uncommitted changes.
 - Read `references/editorial-design.md`, `references/asciidoctor-pdf.md`, and `references/visual-qa.md`.
+- Run `scripts/theme_check.py` on every theme file from the project root, so it inspects the converter version Bundler actually uses. Unknown keys are silently ignored by the converter: they are design intent that never reached the page.
+- Build fresh PDFs with the project's own commands, redirecting `--out-file` to a scratch directory so the author's build outputs stay untouched. Note build warnings.
 
 ### 2. Representative sample
 
 Select pages by content *types*, not just the beginning of the book: cover/title, TOC, chapter opening, long prose, dense code, code with callouts, lists, tables, figures, admonitions, footnotes, index/bibliography, and edge cases. Include light and dark versions if present. Preserve original pagination and use the existing build command where possible.
 
+- Start from the `summary.candidates` of `scripts/pdf_audit.py` (chapter openings, dense code, figures, short pages, headings near the bottom).
+- For types the script cannot detect (tables, callouts, admonitions, footnotes), search the manuscript for their markup (`|===`, `<1>`, `NOTE:`, `footnote:`) and find the page containing a distinctive phrase from that block.
+- Review spreads, not single pages. Pair pages by printed folio (even verso on the left, odd recto on the right), which rarely matches PDF index parity; check which side the running footer's page number sits on.
+
 ### 3. Audit
 
-Inspect PDF metadata and text geometry with `scripts/pdf_audit.py` when PyMuPDF is available. Render a sample of pages and inspect them visually. Use `references/visual-qa.md` to distinguish deterministic findings from heuristic suspicions. Produce a ranked report with page evidence, impact, confidence, fix location, and regression risk.
+Inspect PDF metadata and text geometry with `scripts/pdf_audit.py`. Render the sample and inspect it visually. Use `references/visual-qa.md` to distinguish deterministic findings from heuristic suspicions. Produce a ranked report with page evidence, impact, confidence, fix location, and regression risk.
+
+- Compare the rendered PDF with the theme's intent: page size, margins, heading scale, alignment. A mismatch between what the theme says and what the PDF measures is usually a silently ignored key or value, and is often the highest-value finding.
+- Before claiming that a theme key behaves a certain way, confirm it in the installed converter's source or the official docs, not from memory.
+- Separate defects (ignored settings, missing glyphs, non-embedded fonts, clipped text) from design opinions (measure, contrast, hierarchy). Label opinions as such.
 
 ### 4. Explore
 
@@ -61,13 +71,19 @@ Change one coherent design dimension at a time (e.g. prose measure or code styli
 - `references/visual-qa.md` — automated and human QA rubric
 - `references/provenance.md` — inspirations and licensing notes
 
-## Example commands
+## Scripts
 
-Paths to `scripts/` are relative to this skill's directory. `uv run` installs PyMuPDF on the fly from the script's inline metadata; without `uv`, run it with `python3` after `python3 -m pip install pymupdf`.
+Paths to `scripts/` are relative to this skill's directory. `uv run` installs dependencies on the fly from each script's inline metadata; without `uv`, run them with `python3` after `python3 -m pip install pymupdf pyyaml`.
+
+- `scripts/pdf_audit.py`: per-page geometry plus a book summary (page size, body font, prose measure, non-embedded fonts, content-type candidates); renders pages or spreads.
+- `scripts/theme_check.py`: flags theme keys the installed converter never reads, and known value traps (unparsed page size, prepress-only margins, shadowed heading keys).
 
 ```bash
-uv run <skill-dir>/scripts/pdf_audit.py output/book.pdf --json audit.json
-uv run <skill-dir>/scripts/pdf_audit.py output/book.pdf --pages 1,2,10,25 --render-dir /tmp/book-pages
+# from the book project root
+uv run <skill-dir>/scripts/theme_check.py themes/*-theme.yml
+uv run <skill-dir>/scripts/pdf_audit.py build/book.pdf --json audit.json --summary-only
+# render spreads: pass the left-hand (verso) page of each pair
+uv run <skill-dir>/scripts/pdf_audit.py build/book.pdf --pages 21,57 --spreads --render-dir /tmp/book-pages
 ```
 
 Treat script findings as leads for review, not definitive aesthetic judgments.
