@@ -1,0 +1,19 @@
+{
+  "name": "asciidoc-book-design-skills",
+  "owner": {
+    "name": "Luciano Mammino"
+  },
+  "metadata": {
+    "description": "Agent skills for improving the design of technical books generated with AsciiDoc and Asciidoctor PDF",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "asciidoc-book-design",
+      "description": "Audit, explore, and refine the rendered design of Asciidoctor PDF books",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/asciidoc-book-design"]
+    }
+  ]
+}
