@@ -1,0 +1,58 @@
+{
+  "service": "Amazon KDP (print)",
+  "checked": "2026-10-19",
+  "sources": {
+    "trim_bleed_margins": "https://kdp.amazon.com/en_US/help/topic/GVBQ3CMEQW3W2VL6",
+    "submission_guidelines": "https://kdp.amazon.com/en_US/help/topic/G201857950",
+    "formatting_issues": "https://kdp.amazon.com/en_US/help/topic/G201834260",
+    "cover_calculator": "https://kdp.amazon.com/cover-calculator"
+  },
+  "notes": [
+    "Page limits are [min, max] per ink/paper option; null means the option is not offered for that trim.",
+    "Large trims (wider than 6.12in or taller than 9in) have different printing costs.",
+    "KDP rounds the page count up to an even number.",
+    "The gutter table is published for paperbacks; KDP states no separate hardcover margins."
+  ],
+  "page_limit_columns": ["black-white", "black-cream", "black-groundwood", "standard-color-white", "premium-color-white"],
+  "paperback": [
+    {"trim": [5, 8], "large": false, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [5.06, 7.81], "large": false, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [5.25, 8], "large": false, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [5.5, 8.5], "large": false, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [6, 9], "large": false, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [6.14, 9.21], "large": true, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [6.69, 9.61], "large": true, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [7, 10], "large": true, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [7.44, 9.69], "large": true, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [7.5, 9.25], "large": true, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [8, 10], "large": true, "pages": [[24, 828], [24, 776], [24, 812], [72, 600], [24, 828]]},
+    {"trim": [8.25, 6], "large": true, "pages": [[24, 800], [24, 750], [24, 784], [72, 600], [24, 800]]},
+    {"trim": [8.25, 8.25], "large": true, "pages": [[24, 800], [24, 750], [24, 784], [72, 600], [24, 800]]},
+    {"trim": [8.5, 8.5], "large": true, "pages": [[24, 590], [24, 550], [24, 578], [72, 600], [24, 590]]},
+    {"trim": [8.5, 11], "large": true, "pages": [[24, 590], [24, 550], [24, 578], [72, 600], [24, 590]]},
+    {"trim": [8.27, 11.69], "large": true, "pages": [[24, 780], [24, 730], [24, 764], null, [24, 590]]}
+  ],
+  "hardcover": [
+    {"trim": [5.5, 8.5], "large": false, "pages": [[75, 550], [75, 550], null, null, [75, 550]]},
+    {"trim": [6, 9], "large": false, "pages": [[75, 550], [75, 550], null, null, [75, 550]]},
+    {"trim": [6.14, 9.21], "large": true, "pages": [[75, 550], [75, 550], null, null, [75, 550]]},
+    {"trim": [7, 10], "large": true, "pages": [[75, 550], [75, 550], null, null, [75, 550]]},
+    {"trim": [8.25, 11], "large": true, "pages": [[75, 550], [75, 550], null, null, [75, 550]]}
+  ],
+  "gutter_in": [
+    {"max_pages": 150, "inside": 0.375},
+    {"max_pages": 300, "inside": 0.5},
+    {"max_pages": 500, "inside": 0.625},
+    {"max_pages": 700, "inside": 0.75},
+    {"max_pages": 828, "inside": 0.875}
+  ],
+  "outside_min_in": {"no_bleed": 0.25, "bleed": 0.375},
+  "bleed_in": {"width": 0.125, "height": 0.25},
+  "min_image_dpi": 300,
+  "max_image_dpi_recommended": 600,
+  "max_consecutive_blank_pages": {"start_or_middle": 4, "end": 10},
+  "min_font_size_pt": 7,
+  "min_line_weight_pt": 0.75,
+  "min_gray_fill_percent_black_ink": 10,
+  "max_file_size_mb": 650
+}

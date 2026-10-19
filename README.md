@@ -1,6 +1,6 @@
 # AsciiDoc Book Design Skills
 
-Agent skills for improving the design of technical books generated with [AsciiDoc](https://asciidoc.org/) and [Asciidoctor PDF](https://docs.asciidoctor.org/pdf-converter/latest/): editorial design, typography, theme work, and rendered-PDF quality review.
+Agent skills for improving the design of technical books generated with [AsciiDoc](https://asciidoc.org/) and [Asciidoctor PDF](https://docs.asciidoctor.org/pdf-converter/latest/): editorial design, typography, theme work, rendered-PDF quality review, and print-ready PDFs for print on demand with Amazon KDP.
 
 The skills follow the [Agent Skills specification](https://agentskills.io), so they work with Claude Code, Codex, Cursor, OpenCode, and the other agents supported by the [`skills` CLI](https://github.com/vercel-labs/skills).
 
@@ -8,7 +8,7 @@ The skills follow the [Agent Skills specification](https://agentskills.io), so t
 
 | Skill | What it does |
 | --- | --- |
-| [`asciidoc-book-design`](skills/asciidoc-book-design/SKILL.md) | Audits, explores, and refines the rendered design of an Asciidoctor PDF book (type, page grid, code blocks, light/dark editions) without touching the manuscript or breaking EPUB/HTML outputs. |
+| [`asciidoc-book-design`](skills/asciidoc-book-design/SKILL.md) | Audits, explores, and refines the rendered design of an Asciidoctor PDF book (type, page grid, code blocks, light/dark editions) without touching the manuscript or breaking EPUB/HTML outputs. Checks print builds against Amazon KDP's requirements and helps choose a trim size. |
 
 ## Install
 
@@ -46,6 +46,20 @@ The skill has three modes, picked from your request:
 - **explore**: two or three differentiated editorial directions, each built as sample pages for you to choose from.
 - **refine**: changes one design dimension at a time, rebuilding and re-checking both editions after each step.
 
+### Print on demand with Amazon KDP
+
+If you plan to print through [Kindle Direct Publishing](https://kdp.amazon.com/), say so, along with the binding and ink you have in mind:
+
+> Use the asciidoc-book-design skill to check whether this book is ready for a KDP black-and-white paperback, and recommend a trim size.
+
+The skill then:
+
+- estimates the page count and the number of code columns that fit at every KDP trim size, flagging trims that would exceed page limits (for example, the 550-page hardcover maximum);
+- proposes a separate print theme and build (trim size, gutter margins sized for the final page count, `media=prepress`, black-and-white syntax highlighting), keeping the screen editions unchanged;
+- checks the print PDF against KDP's published requirements: trim, page count, gutter and margins (including running heads), bleed, embedded fonts, 7pt minimum text, 0.75pt minimum line weight, 300 DPI images, grey contrast and fills for black ink, blank pages, folio parity, bookmarks and link annotations.
+
+KDP's requirements are stored in [`scripts/data/kdp.json`](skills/asciidoc-book-design/scripts/data/kdp.json) with their source pages and the date they were last checked. KDP updates them from time to time, so check the [official guidelines](https://kdp.amazon.com/en_US/help/topic/G201857950) before submitting, and order a printed proof: paper, ink density, and thin lines can't be judged on screen.
+
 ### Requirements
 
 - An existing Asciidoctor PDF build (the skill uses your build commands; it does not replace them).
@@ -61,6 +75,7 @@ Early version, test-driven against a real 421-page technical book with light and
 
 - `pdf_audit.py`: page geometry, non-embedded fonts, prose measure, content-type page candidates, and page or spread rendering.
 - `theme_check.py`: theme keys the installed converter never reads, plus value traps such as an unparsed page size or prepress-only margins.
+- `kdp_check.py`: KDP print readiness of a PDF, plus page-count and code-column estimates at every KDP trim size.
 
 ## Credits
 
